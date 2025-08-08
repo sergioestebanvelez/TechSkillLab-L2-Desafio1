@@ -9,13 +9,12 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.time.Duration;
 import java.time.LocalDate;
-import java.util.Objects;
 import java.util.UUID;
 
 @Service
 public class PetitionServiceImpl implements IPetitionService {
+
     private final IPetitionRepository petitionRepository;
     private final PetitionMapper petitionMapper;
 
