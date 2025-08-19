@@ -18,19 +18,19 @@ public class BookResource {
 
     @GetMapping("/all")
     public Flux<BookDTO> getAllBooks(){
-        return null; /*bookService.findAll();*/
+        return bookService.findAll();
     }
 
     @PostMapping("/id")
     public Mono<ResponseEntity<BookDTO>> findById(@RequestBody BookDTO bookDTO){
-        return null; /*bookService.findById(bookDTO.getBookId())
-                .map(ResponseEntity::ok);*/
+        return bookService.findById(bookDTO.getBookId())
+                .map(ResponseEntity::ok);
     }
 
     @PostMapping("/save")
     public Mono<ResponseEntity<BookDTO>> saveBook(@RequestBody BookDTO bookDTO){
-        return null; /*bookService.save(bookDTO)
-                .map(ResponseEntity::ok);*/
+        return bookService.save(bookDTO)
+                .map(ResponseEntity::ok);
     }
 
 

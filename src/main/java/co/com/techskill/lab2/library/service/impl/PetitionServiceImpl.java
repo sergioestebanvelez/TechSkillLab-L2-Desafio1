@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Service
@@ -46,8 +48,27 @@ public class PetitionServiceImpl implements IPetitionService {
     }
 
     //TO-DO: Filter example findByPriority
+    @Override
+    public Flux<PetitionDTO> findByPriority(Integer p) {
+        return petitionRepository.findAll()
+                .filter(petition -> petition.getPriority() == 5)
+                .map(petition -> petitionMapper.toDTO(petition));
+    }
 
     //TO-DO: Check priorities with a delay of 1 second to show up the processing in console but requested in Swagger UI
+    @Override
+    public Flux<String> checkPriorities(Integer p) {
+        return findByPriority(p)
+                .map(petitionDTO -> LocalTime.now() + " - Check priority with level " + p
+                + ", Petition ID: " + petitionDTO.getPetitionId()
+                +",  For Book ID:  " + petitionDTO.getBookId()+"\n")
+                .delayElements(Duration.ofMillis(5000))
+                .doOnNext(System.out::println);
+    }
+
+
+
+
 
 
 }

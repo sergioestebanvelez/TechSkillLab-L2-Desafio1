@@ -6,14 +6,16 @@ import reactor.core.publisher.Mono;
 
 public interface IBookService {
     /*
-    Componentes principales: Mono y Flux
-    - Mono<T>: 0 o 1 elemento.
-    - Flux<T>: 0 a N elementos.
-    Ambos implementan Publisher<T>.
+    Por debajo, implementan Publisher <T>
+    * Flux<?>: O a N elementos
+    * Mono<?>: 0 o 1 elementos
+    *
+    Otros elementos que forman parte:
+    Subscriber<T>: Consumo de datos - doOnNext(), etc
+    Suscription<T>: limitRate()
     */
-
-    /*Flux<BookDTO> findAll();
+    Flux<BookDTO> findAll();
     Mono<BookDTO> findById(String id);
-    Mono<BookDTO> save(BookDTO bookDTO);*/
+    Mono<BookDTO> save(BookDTO bookDTO);
 
 }

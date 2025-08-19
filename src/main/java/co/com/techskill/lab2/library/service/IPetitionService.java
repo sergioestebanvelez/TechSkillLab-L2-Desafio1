@@ -8,9 +8,9 @@ public interface IPetitionService {
     Flux<PetitionDTO> findALl();
     Mono<PetitionDTO> findById(String id);
     Mono<PetitionDTO> save (PetitionDTO petitionDTO);
-    /*
+
     Flux<PetitionDTO> findByPriority(Integer p);
     Flux<String> checkPriorities(Integer p);
-    */
+
 
 }
