@@ -5,9 +5,11 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class PetitionService {
@@ -36,6 +38,10 @@ public class PetitionService {
         petitions.add(new PetitionDTO("742330cf-0", "LEND", 6, "12a13228-0", LocalDate.parse("2025-07-25")));
     }
 
+   
+
+    //TO - DO: Challenge #1
+
     public Flux<PetitionDTO> dummyFindAll(){
         return Flux.fromIterable(petitions);
     }
@@ -48,5 +54,24 @@ public class PetitionService {
         );
     }
 
-    //TO - DO: Challenge #1
+    // TO - DO: Challenge #1  
+    public Flux<String> reto1() {
+        return dummyFindAll()
+                .limitRate(5) 
+                .filter(p -> p.getPriority() != null && p.getPriority() >= 7)
+                .map(p -> "Petición #" + p.getPetitionId()
+                        + " | prioridad=" + p.getPriority()
+                        + " | tipo=" + p.getType()
+                        + " | bookId=" + p.getBookId())
+                .flatMap(msg -> simulateAsync(msg).map(ok -> "[OK] " + ok))
+                .delayElements(Duration.ofMillis(300)); 
+    }
+
+    private Mono<String> simulateAsync(String msg) {
+        int latency = ThreadLocalRandom.current().nextInt(100, 401); 
+        return Mono.defer(() -> Mono.just("Procesando → " + msg + " | t=" + latency + "ms"))
+                   .delayElement(Duration.ofMillis(latency));
+    }
+
+   
 }
